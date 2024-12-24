@@ -1,7 +1,9 @@
+import 'package:evently_app/custom_widgets/custom_elevated_button.dart';
 import 'package:evently_app/tabs/profile_tab/language_bottom_sheet.dart';
 import 'package:evently_app/tabs/profile_tab/theme_bottom_sheet.dart';
 import 'package:evently_app/utils/app_colors.dart';
 import 'package:evently_app/utils/app_styles.dart';
+import 'package:evently_app/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -23,11 +25,36 @@ class _ProfileTabState extends State<ProfileTab> {
   Widget build(BuildContext context) {
     var themeProvider = Provider.of<AppThemeProvider>(context);
     var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     var languageProvider = Provider.of<AppLanguageProvider>(context);
     return Scaffold(
       appBar: AppBar(
-          // backgroundColor: AppColors.primaryLight,
-          ),
+        backgroundColor: AppColors.primaryLight,
+        toolbarHeight: height * .18,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(75))),
+        title: Row(
+          children: [
+            Image.asset(AssetsManager.profile_Tab_App_Bar),
+            SizedBox(
+              width: width * .05,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Route Academy",
+                  style: AppStyles.bold24White,
+                ),
+                SizedBox(
+                  height: height * .005,
+                ),
+                Text("route@gmail.com", style: AppStyles.medium16White),
+              ],
+            )
+          ],
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -108,6 +135,22 @@ class _ProfileTabState extends State<ProfileTab> {
                 ),
               ),
             ),
+            Spacer(),
+            CustomElevatedButton(
+              onTap: () {
+                ////
+              },
+              text: AppLocalizations.of(context)!.logout,
+              backgroundColor: AppColors.red,
+              prefixIconButton: Icon(
+                Icons.logout_outlined,
+                color: AppColors.white,
+                size: 30,
+              ),
+            ),
+            SizedBox(
+              height: height * .02,
+            )
           ],
         ),
       ),

@@ -11,7 +11,9 @@ class AppTheme {
           backgroundColor: AppColors.primaryLight,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
-              side: BorderSide(color: AppColors.white, width: 5))));
+            side: BorderSide(color: AppColors.white, width: 5))),
+  );
+
   static final ThemeData darkTheme = ThemeData(
       primaryColor: AppColors.primaryDark,
       appBarTheme: AppBarTheme(
@@ -23,5 +25,6 @@ class AppTheme {
           backgroundColor: AppColors.primaryDark,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
-              side: BorderSide(color: AppColors.white, width: 5))));
+            side: BorderSide(color: AppColors.white, width: 5))),
+  );
 }

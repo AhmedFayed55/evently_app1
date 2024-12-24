@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const String routename = "home_tab";
+  static const String routeName = "home_tab";
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();

@@ -117,7 +117,7 @@ class LoginScreen extends StatelessWidget {
             ),
             CustomElevatedButton(
               onTap: () {
-                Navigator.of(context).pushNamed(RegisterScreen.routeName);
+                /////
               },
               prefixIconButton: Image.asset(AssetsManager.gooleLogo),
               text: AppLocalizations.of(context)!.login_with_google,

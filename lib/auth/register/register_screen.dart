@@ -1,3 +1,4 @@
+import 'package:evently_app/auth/login_screen.dart';
 import 'package:evently_app/custom_widgets/custom_elevated_button.dart';
 import 'package:evently_app/custom_widgets/custom_text_field.dart';
 import 'package:evently_app/utils/app_colors.dart';
@@ -8,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegisterScreen extends StatelessWidget {
-  static const String routeName = "RigisterScreen";
+  static const String routeName = "Register_Screen";
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +82,10 @@ class RegisterScreen extends StatelessWidget {
                   decoration: TextDecoration.underline,
                   decorationColor: AppColors.primaryLight,
                 ),
-                recognizer: TapGestureRecognizer()..onTap = () {},
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    Navigator.of(context).pushNamed(LoginScreen.routeName);
+                  },
               ),
             ])),
           ],

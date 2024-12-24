@@ -32,8 +32,8 @@ class MyApp extends StatelessWidget {
       routes: {
         ProfileTab.routeName : (context) => ProfileTab(),
         HomeScreen.routeName: (context) => HomeScreen(),
-        RegisterScreen.routeName: (context) => RegisterScreen(),
         LoginScreen.routeName: (context) => LoginScreen(),
+        RegisterScreen.routeName: (context) => RegisterScreen()
       },
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,

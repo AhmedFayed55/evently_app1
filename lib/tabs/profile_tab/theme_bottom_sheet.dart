@@ -24,6 +24,7 @@ class ThemeBottomSheet extends StatelessWidget {
               onTap: () {
                 /// change theme to dark
                 themeProvider.changeTheme(ThemeMode.dark);
+                Navigator.of(context).pop();
               },
               child: themeProvider.appTheme == ThemeMode.dark
                   ? getSelectedItemWidget(AppLocalizations.of(context)!.dark)
@@ -36,6 +37,7 @@ class ThemeBottomSheet extends StatelessWidget {
               onTap: () {
                 ///change theme to light
                 themeProvider.changeTheme(ThemeMode.light);
+                Navigator.of(context).pop();
               },
               child: themeProvider.appTheme == ThemeMode.light
                   ? getSelectedItemWidget(AppLocalizations.of(context)!.light)

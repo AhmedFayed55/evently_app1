@@ -1,3 +1,4 @@
+import 'package:evently_app/providers/app_theme_provider.dart';
 import 'package:evently_app/tabs/home_tab/event_item_widget.dart';
 import 'package:evently_app/tabs/home_tab/tab_event_widget.dart';
 import 'package:evently_app/utils/app_colors.dart';
@@ -5,6 +6,9 @@ import 'package:evently_app/utils/app_styles.dart';
 import 'package:evently_app/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/app_language_provider.dart';
 
 class HomeTab extends StatefulWidget {
   @override
@@ -16,6 +20,8 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   Widget build(BuildContext context) {
+    var languageProvider = Provider.of<AppLanguageProvider>(context);
+    var themeProvider = Provider.of<AppThemeProvider>(context);
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     List<String> eventNamesList = [
@@ -50,23 +56,48 @@ class _HomeTabState extends State<HomeTab> {
             ),
             Row(
               children: [
-                Icon(
-                  Icons.wb_sunny_outlined,
-                  size: 30,
-                  color: AppColors.white,
-                ),
+                IconButton(
+                    onPressed: () {
+                      if (themeProvider.appTheme == ThemeMode.light) {
+                        themeProvider.changeTheme(ThemeMode.dark);
+                      } else {
+                        themeProvider.changeTheme(ThemeMode.light);
+                      }
+                    },
+                    icon: themeProvider.appTheme == ThemeMode.light
+                        ? Icon(
+                            Icons.nightlight_round,
+                            color: AppColors.black,
+                          )
+                        : Icon(
+                            Icons.wb_sunny_outlined,
+                            color: AppColors.white,
+                          )),
                 SizedBox(
                   width: width * 0.03,
                 ),
-                Container(
-                  padding: EdgeInsets.all(height * .01),
-                  decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Text(
-                    "En",
-                    style: AppStyles.bold14Primary,
-                  ),
+                InkWell(
+                  onTap: () {
+                    if (languageProvider.appLanguage == "en") {
+                      languageProvider.changeLanguage("ar");
+                    } else {
+                      languageProvider.changeLanguage("en");
+                    }
+                  },
+                  child: Container(
+                      padding: EdgeInsets.all(height * .01),
+                      decoration: BoxDecoration(
+                          color: AppColors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: languageProvider.appLanguage == "en"
+                          ? Text(
+                              "En",
+                              style: AppStyles.bold14Primary,
+                            )
+                          : Text(
+                              "AR",
+                              style: AppStyles.bold14Black,
+                            )),
                 )
               ],
             )
@@ -115,6 +146,9 @@ class _HomeTabState extends State<HomeTab> {
                         isScrollable: true,
                         tabs: eventNamesList.map((eventName) {
                           return TabEventWidget(
+                              textSelectedStyle: AppStyles.medium16Primary,
+                              textUnSelectedStyle: AppStyles.medium16White,
+                              backgroundColor: AppColors.white,
                               eventName: eventName,
                               isSelected: selectedIndex ==
                                   eventNamesList.indexOf(eventName));

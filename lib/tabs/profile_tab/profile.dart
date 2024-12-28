@@ -1,3 +1,4 @@
+import 'package:evently_app/auth/login_screen/login_screen.dart';
 import 'package:evently_app/custom_widgets/custom_elevated_button.dart';
 import 'package:evently_app/tabs/profile_tab/language_bottom_sheet.dart';
 import 'package:evently_app/tabs/profile_tab/theme_bottom_sheet.dart';
@@ -32,7 +33,7 @@ class _ProfileTabState extends State<ProfileTab> {
         backgroundColor: AppColors.primaryLight,
         toolbarHeight: height * .18,
         shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(75))),
+            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(55))),
         title: Row(
           children: [
             Image.asset(AssetsManager.profile_Tab_App_Bar),
@@ -138,7 +139,42 @@ class _ProfileTabState extends State<ProfileTab> {
             Spacer(),
             CustomElevatedButton(
               onTap: () {
-                ////
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        backgroundColor: AppColors.white,
+                        content: Text(
+                          AppLocalizations.of(context)!.log_out_of_your_account,
+                          style: AppStyles.bold20Black,
+                        ),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(
+                                AppLocalizations.of(context)!.cancel,
+                                style: TextStyle(
+                                    color: AppColors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              )),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pushReplacementNamed(
+                                    LoginScreen.routeName);
+                              },
+                              child: Text(
+                                AppLocalizations.of(context)!.logout,
+                                style: TextStyle(
+                                    color: AppColors.red,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              )),
+                        ],
+                      );
+                    });
               },
               text: AppLocalizations.of(context)!.logout,
               backgroundColor: AppColors.red,

@@ -1,3 +1,4 @@
+import 'package:evently_app/tabs/home_tab/add_event/add_event_screen.dart';
 import 'package:evently_app/tabs/home_tab/home_tab.dart';
 import 'package:evently_app/tabs/love_tab/love_tab.dart';
 import 'package:evently_app/tabs/map_tab/map_tab.dart';
@@ -61,8 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // navigate to add event screen
-          // add event
+          Navigator.of(context).pushNamed(AddEvent.routeName);
         },
         child: Icon(
           Icons.add,

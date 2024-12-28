@@ -18,14 +18,16 @@ class LanguageBottomSheet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           InkWell(
-              onTap: () {
-                /// change language
-                languageProvider.changeLanguage("en");
-              },
-              child: languageProvider.appLanguage == "en"
-                  ? getSelectedItemWidget(AppLocalizations.of(context)!.english)
-                  : getUnSelectedItemWidget(
-                      AppLocalizations.of(context)!.english)),
+            onTap: () {
+              ///change language
+              languageProvider.changeLanguage("en");
+              Navigator.pop(context);
+            },
+            child: languageProvider.appLanguage == "en"
+                ? getSelectedItemWidget(AppLocalizations.of(context)!.english)
+                : getUnSelectedItemWidget(
+                    AppLocalizations.of(context)!.english),
+          ),
           SizedBox(
             height: height * .012,
           ),
@@ -33,6 +35,7 @@ class LanguageBottomSheet extends StatelessWidget {
               onTap: () {
                 ///change language
                 languageProvider.changeLanguage("ar");
+                Navigator.pop(context);
               },
               child: languageProvider.appLanguage == "ar"
                   ? getSelectedItemWidget(AppLocalizations.of(context)!.arabic)

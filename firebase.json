@@ -1,0 +1,22 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "event-planning-65ac3",
+          "appId": "1:245842050048:android:6bc70fbdf55bc177e2ece5",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "event-planning-65ac3",
+          "configurations": {
+            "android": "1:245842050048:android:6bc70fbdf55bc177e2ece5",
+            "ios": "1:245842050048:ios:21360da3e7e95d7be2ece5"
+          }
+        }
+      }
+    }
+  }
+}

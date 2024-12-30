@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently_app/providers/app_language_provider.dart';
 import 'package:evently_app/providers/app_theme_provider.dart';
+import 'package:evently_app/providers/event_list_provider.dart';
 import 'package:evently_app/tabs/home_screen.dart';
 import 'package:evently_app/tabs/home_tab/add_event/add_event_screen.dart';
 import 'package:evently_app/tabs/profile_tab/profile.dart';
@@ -8,6 +10,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+
 import 'auth/forget_password/forget_password.dart';
 import 'auth/login_screen/login_screen.dart';
 import 'auth/register_screen/register_screen.dart';
@@ -18,9 +21,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FirebaseFirestore.instance.disableNetwork(); //offline
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => AppLanguageProvider()),
-    ChangeNotifierProvider(create: (context) => AppThemeProvider())
+    ChangeNotifierProvider(create: (context) => AppThemeProvider()),
+    ChangeNotifierProvider(create: (context) => EventListProvider()),
   ], child: const MyApp()));
 }
 

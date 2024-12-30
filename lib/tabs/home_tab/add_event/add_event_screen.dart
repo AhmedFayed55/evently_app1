@@ -1,5 +1,8 @@
 import 'package:evently_app/custom_widgets/custom_elevated_button.dart';
 import 'package:evently_app/custom_widgets/custom_text_field.dart';
+import 'package:evently_app/firebase_utils/firebase_utils.dart';
+import 'package:evently_app/model/event.dart';
+import 'package:evently_app/providers/event_list_provider.dart';
 import 'package:evently_app/tabs/home_tab/add_event/custom_row_date_time.dart';
 import 'package:evently_app/tabs/home_tab/tab_event_widget.dart';
 import 'package:evently_app/utils/app_colors.dart';
@@ -7,6 +10,8 @@ import 'package:evently_app/utils/app_styles.dart';
 import 'package:evently_app/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class AddEvent extends StatefulWidget {
   static const String routeName = "add_event";
@@ -17,16 +22,22 @@ class AddEvent extends StatefulWidget {
 
 class _AddEventState extends State<AddEvent> {
   int selectedIndex = 0;
-  String selectedEvent = "Sport";
   var formKey = GlobalKey<FormState>();
-  DateTime? selectedDate;
-  TimeOfDay? selectedTime;
-  String? formatedTime;
   String? errorDate;
   String? errorTime;
+  var titleController = TextEditingController(); //save title
+  var descriptionController = TextEditingController(); // save description
+  String selectedImage = "";
+  String selectedEvent = "Sport";
+  DateTime? selectedDate; // save Date
+  String formatedDate = "";
+  TimeOfDay? selectedTime; //Save Time
+  String formatedTime = "";
+  late EventListProvider eventListProvider;
 
   @override
   Widget build(BuildContext context) {
+    eventListProvider = Provider.of<EventListProvider>(context);
     List<String> eventNamesList = [
       AppLocalizations.of(context)!.sport,
       AppLocalizations.of(context)!.birthday,
@@ -38,17 +49,30 @@ class _AddEventState extends State<AddEvent> {
       AppLocalizations.of(context)!.holiday,
       AppLocalizations.of(context)!.eating,
     ];
-    Map<String, String> mapEventList = {
-      AppLocalizations.of(context)!.sport: AssetsManager.sport,
-      AppLocalizations.of(context)!.birthday: AssetsManager.birthday,
-      AppLocalizations.of(context)!.meeting: AssetsManager.meeting,
-      AppLocalizations.of(context)!.gaming: AssetsManager.gaming,
-      AppLocalizations.of(context)!.workshop: AssetsManager.workshop,
-      AppLocalizations.of(context)!.book_club: AssetsManager.bookClub,
-      AppLocalizations.of(context)!.exhibition: AssetsManager.exhibition,
-      AppLocalizations.of(context)!.holiday: AssetsManager.holiday1,
-      AppLocalizations.of(context)!.eating: AssetsManager.eating,
-    };
+    List<String> imageSelectedNameList = [
+      AssetsManager.sport,
+      AssetsManager.birthday,
+      AssetsManager.meeting,
+      AssetsManager.gaming,
+      AssetsManager.workshop,
+      AssetsManager.bookClub,
+      AssetsManager.exhibition,
+      AssetsManager.holiday1,
+      AssetsManager.eating,
+    ];
+    // Map<String, String> mapEventList = {
+    //   AppLocalizations.of(context)!.sport: AssetsManager.sport,
+    //   AppLocalizations.of(context)!.birthday: AssetsManager.birthday,
+    //   AppLocalizations.of(context)!.meeting: AssetsManager.meeting,
+    //   AppLocalizations.of(context)!.gaming: AssetsManager.gaming,
+    //   AppLocalizations.of(context)!.workshop: AssetsManager.workshop,
+    //   AppLocalizations.of(context)!.book_club: AssetsManager.bookClub,
+    //   AppLocalizations.of(context)!.exhibition: AssetsManager.exhibition,
+    //   AppLocalizations.of(context)!.holiday: AssetsManager.holiday1,
+    //   AppLocalizations.of(context)!.eating: AssetsManager.eating,
+    // };
+    selectedImage = imageSelectedNameList[selectedIndex];
+    selectedEvent = eventNamesList[selectedIndex];
     var height = MediaQuery
         .of(context)
         .size
@@ -80,7 +104,9 @@ class _AddEventState extends State<AddEvent> {
                 ),
                 clipBehavior: Clip.antiAlias,
                 child: Image.asset(
-                  mapEventList[selectedEvent]!, fit: BoxFit.fitWidth,),
+                  selectedImage,
+                  fit: BoxFit.fitWidth,
+                ),
               ),
               Container(
                   margin: EdgeInsets.symmetric(vertical: height * .02),
@@ -91,7 +117,6 @@ class _AddEventState extends State<AddEvent> {
                         return InkWell(
                           onTap: () {
                             selectedIndex = index;
-                            selectedEvent = eventNamesList[index];
                             setState(() {
 
                             });
@@ -120,6 +145,7 @@ class _AddEventState extends State<AddEvent> {
                       style: AppStyles.medium16Black,),
                     SizedBox(height: height * .017,),
                     CustomTextField(
+                      controller: titleController,
                       hintStyle: AppStyles.medium16Grey,
                       hintText: AppLocalizations.of(context)!.event_title,
                       prefixIcon: Icon(Icons.edit_note_rounded),
@@ -136,6 +162,7 @@ class _AddEventState extends State<AddEvent> {
                       style: AppStyles.medium16Black,),
                     SizedBox(height: height * .017,),
                     CustomTextField(
+                      controller: descriptionController,
                       maxLines: 4,
                       hintStyle: AppStyles.medium16Grey,
                       hintText: AppLocalizations.of(context)!.event_description,
@@ -154,19 +181,16 @@ class _AddEventState extends State<AddEvent> {
                       text: AppLocalizations.of(context)!.event_date,
                       textButton: selectedDate == null
                           ? AppLocalizations.of(context)!.choose_date
-                          : "${selectedDate?.day}/${selectedDate
-                          ?.month}/${selectedDate?.year}",
-                    ),
+                            : DateFormat("dd//MM/yyyy").format(selectedDate!)),
                     errorDate == null ? SizedBox() : Text(
                       "$errorDate", style: AppStyles.medium16Red,),
                     CustomRowDateTime(
                         onPressed: chooseTime,
                         icon: Icon(Icons.watch_later_outlined),
                         text: AppLocalizations.of(context)!.event_time,
-                        textButton: selectedTime == null ? AppLocalizations.of(
-                            context)!.choose_time
-                            : formatedTime!
-                    ),
+                        textButton: selectedTime == null
+                            ? AppLocalizations.of(context)!.choose_time
+                            : formatedTime),
                     errorDate == null ? SizedBox() : Text(
                       "$errorTime", style: AppStyles.medium16Red,),
                     Text(AppLocalizations.of(context)!.location,
@@ -247,25 +271,42 @@ class _AddEventState extends State<AddEvent> {
       return;
     });
 
-    print("done");
+    //todo: add event to firebase
+    Event event = Event(
+        title: titleController.text,
+        description: descriptionController.text,
+        image: selectedImage,
+        eventName: selectedEvent,
+        dateTime: selectedDate!,
+        time: formatedTime);
+    FirebaseUtils.addEventToFireStore(event)
+        .timeout(Duration(milliseconds: 500), onTimeout: () {
+      //todo: refresh event list to make sure they all will appear in the home screen
+      eventListProvider.getAllEvents();
+      Navigator.pop(context);
+      print("Event Added Successfully");
+    });
   }
 
   void chooseDate() async {
-    selectedDate = await showDatePicker(
+    var chooseDate = await showDatePicker(
       initialDate: DateTime.now(),
       context: context,
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(Duration(days: 365)),
     );
+    selectedDate = chooseDate;
+    formatedDate = DateFormat("dd//MM/yyyy").format(selectedDate!);
     setState(() {
 
     });
   }
 
   void chooseTime() async {
-    selectedTime = await showTimePicker(
-        context: context,
+    var chooseTime =
+        await showTimePicker(context: context,
         initialTime: TimeOfDay.now());
+    selectedTime = chooseTime;
     formatedTime = selectedTime!.format(context);
     setState(() {
 

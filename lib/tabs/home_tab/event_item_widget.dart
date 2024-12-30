@@ -1,15 +1,20 @@
+import 'package:evently_app/model/event.dart';
 import 'package:evently_app/utils/app_colors.dart';
 import 'package:evently_app/utils/app_styles.dart';
-import 'package:evently_app/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class EventItemWidget extends StatelessWidget {
-  const EventItemWidget({super.key});
+  Event event;
+
+  EventItemWidget({required this.event});
 
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
+    String monthName = DateFormat.MMM()
+        .format(event.dateTime); //todo: convert month number to month name
     return Container(
       margin: EdgeInsets.only(
         top: height * .02,
@@ -19,7 +24,7 @@ class EventItemWidget extends StatelessWidget {
           image: DecorationImage(
               fit: BoxFit.cover,
               image: AssetImage(
-                AssetsManager.birthday,
+                event.image,
               )),
           border: Border.all(color: AppColors.primaryLight, width: 2),
           borderRadius: BorderRadius.circular(20)),
@@ -37,9 +42,9 @@ class EventItemWidget extends StatelessWidget {
                   color: AppColors.white),
               child: Column(
                 children: [
-                  Text("22", style: AppStyles.bold20Primary),
+                  Text("${event.dateTime.day}", style: AppStyles.bold20Primary),
                   Text(
-                    "Nov",
+                    "${monthName}",
                     style: AppStyles.bold20Primary,
                   ),
                 ],
@@ -56,7 +61,7 @@ class EventItemWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "This is a Birthday Party",
+                  event.title,
                   style: AppStyles.bold14Black,
                 ),
                 Icon(Icons.favorite_border)

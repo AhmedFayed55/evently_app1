@@ -15,6 +15,7 @@ class CustomTextField extends StatelessWidget {
   Color? prefixIconColor;
   int? maxLines;
   String? Function(String?)? validator;
+  TextEditingController? controller;
 
   CustomTextField(
       {this.borderColor,
@@ -27,11 +28,13 @@ class CustomTextField extends StatelessWidget {
       this.style,
         this.prefixIconColor,
         this.maxLines,
-        this.validator});
+      this.validator,
+      this.controller});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       validator: validator,
       maxLines: maxLines,
       style: style,

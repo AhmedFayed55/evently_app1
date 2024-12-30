@@ -5,8 +5,6 @@ import 'package:evently_app/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../home_tab/event_item_widget.dart';
-
 class LoveTab extends StatelessWidget {
   const LoveTab({super.key});
 
@@ -32,7 +30,8 @@ class LoveTab extends StatelessWidget {
             Expanded(
               child: ListView.builder(
                 itemBuilder: (context, index) {
-                  return EventItemWidget();
+                  return SizedBox();
+                  //EventItemWidget();
                 },
                 itemCount: 20,
               ),

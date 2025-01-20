@@ -9,6 +9,7 @@ class EventListProvider extends ChangeNotifier {
   List<Event> eventsList = [];
   int selectedIndex = 0;
   List<String> eventNamesList = [];
+  Map<String, String> toEnglishLocalizedMap = {};
 
   void getEventNameList(BuildContext context) {
     eventNamesList = [
@@ -23,6 +24,18 @@ class EventListProvider extends ChangeNotifier {
       AppLocalizations.of(context)!.holiday,
       AppLocalizations.of(context)!.eating,
     ];
+    toEnglishLocalizedMap = {
+      AppLocalizations.of(context)!.all: "All",
+      AppLocalizations.of(context)!.sport: "Sport",
+      AppLocalizations.of(context)!.birthday: "Birthday",
+      AppLocalizations.of(context)!.meeting: "Meeting",
+      AppLocalizations.of(context)!.gaming: "Gaming",
+      AppLocalizations.of(context)!.workshop: "Workshop",
+      AppLocalizations.of(context)!.book_club: "Book Club",
+      AppLocalizations.of(context)!.exhibition: "Exhibition",
+      AppLocalizations.of(context)!.holiday: "Holiday",
+      AppLocalizations.of(context)!.eating: "Eating",
+    };
   }
 
   List<Event> filterList = [];
@@ -49,8 +62,13 @@ class EventListProvider extends ChangeNotifier {
     eventsList = querySnapshot.docs.map((doc) {
       return doc.data();
     }).toList();
+
+    String? selectedCategory =
+        toEnglishLocalizedMap[eventNamesList[selectedIndex] ?? "All"];
+
+    // todo: filtering
     filterList = eventsList.where((event) {
-      return event.eventName == eventNamesList[selectedIndex];
+      return event.eventName == selectedCategory;
     }).toList();
 
     //todo: sorting

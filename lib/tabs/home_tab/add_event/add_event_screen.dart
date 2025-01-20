@@ -10,6 +10,7 @@ import 'package:evently_app/utils/app_styles.dart';
 import 'package:evently_app/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -248,7 +249,7 @@ class _AddEventState extends State<AddEvent> {
     );
   }
 
-  void addEvent() {
+  void addEvent() async {
     errorDate = null;
     errorTime = null;
     if (formKey.currentState?.validate() == true) {
@@ -279,12 +280,12 @@ class _AddEventState extends State<AddEvent> {
         eventName: selectedEvent,
         dateTime: selectedDate!,
         time: formatedTime);
-    FirebaseUtils.addEventToFireStore(event)
+    await FirebaseUtils.addEventToFireStore(event)
         .timeout(Duration(milliseconds: 500), onTimeout: () {
       //todo: refresh event list to make sure they all will appear in the home screen
       eventListProvider.getAllEvents();
+      showSuccessToast();
       Navigator.pop(context);
-      print("Event Added Successfully");
     });
   }
 
@@ -311,5 +312,19 @@ class _AddEventState extends State<AddEvent> {
     setState(() {
 
     });
+  }
+
+  void showSuccessToast() {
+    Fluttertoast.showToast(
+      msg: "Added event successfully",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      backgroundColor: AppColors.green,
+      textColor: Colors.white,
+      fontSize: 16.0,
+      webBgColor: "linear-gradient(to right, #00b09b, #96c93d)",
+      webPosition: "center",
+      timeInSecForIosWeb: 2,
+    );
   }
 }

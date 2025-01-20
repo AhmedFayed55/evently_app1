@@ -6,13 +6,15 @@ import 'package:intl/intl.dart';
 
 class EventItemWidget extends StatelessWidget {
   Event event;
+  Function onIconPressed;
 
-  EventItemWidget({required this.event});
+  EventItemWidget({required this.event, required this.onIconPressed});
 
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
+    bool isFavorite = false;
     String monthName = DateFormat.MMM()
         .format(event.dateTime); //todo: convert month number to month name
     return Container(
@@ -53,7 +55,7 @@ class EventItemWidget extends StatelessWidget {
             margin: EdgeInsets.symmetric(
                 horizontal: width * .02, vertical: height * .01),
             padding: EdgeInsets.symmetric(
-                horizontal: width * .03, vertical: height * .009),
+                horizontal: width * .03, vertical: height * .002),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 color: AppColors.white),
@@ -64,7 +66,17 @@ class EventItemWidget extends StatelessWidget {
                   event.title,
                   style: AppStyles.bold14Black,
                 ),
-                Icon(Icons.favorite_border)
+                IconButton(
+                  onPressed: () {
+                    onIconPressed();
+                  },
+                  icon: Icon(
+                    event.isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: event.isFavorite
+                        ? AppColors.primaryLight
+                        : AppColors.grey,
+                  ),
+                )
               ],
             ),
           )

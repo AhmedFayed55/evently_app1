@@ -45,7 +45,7 @@ class _ProfileTabState extends State<ProfileTab> {
               children: [
                 Text(
                   "Route Academy",
-                  style: AppStyles.bold24White,
+                  style: AppStyles.medium20White,
                 ),
                 SizedBox(
                   height: height * .005,

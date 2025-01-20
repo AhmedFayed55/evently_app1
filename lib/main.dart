@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently_app/providers/app_language_provider.dart';
 import 'package:evently_app/providers/app_theme_provider.dart';
 import 'package:evently_app/providers/event_list_provider.dart';
+import 'package:evently_app/providers/favorite_provider.dart';
 import 'package:evently_app/tabs/home_screen.dart';
 import 'package:evently_app/tabs/home_tab/add_event/add_event_screen.dart';
 import 'package:evently_app/tabs/profile_tab/profile.dart';
@@ -26,6 +27,7 @@ void main() async {
     ChangeNotifierProvider(create: (context) => AppLanguageProvider()),
     ChangeNotifierProvider(create: (context) => AppThemeProvider()),
     ChangeNotifierProvider(create: (context) => EventListProvider()),
+    ChangeNotifierProvider(create: (_) => FavoriteProvider())
   ], child: const MyApp()));
 }
 
@@ -41,7 +43,7 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       debugShowCheckedModeBanner: false,
-      initialRoute: HomeScreen.routeName,
+      initialRoute: LoginScreen.routeName,
       routes: {
         ProfileTab.routeName: (context) => ProfileTab(),
         HomeScreen.routeName: (context) => HomeScreen(),

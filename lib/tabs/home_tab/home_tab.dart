@@ -7,8 +7,10 @@ import 'package:evently_app/utils/app_styles.dart';
 import 'package:evently_app/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
+import '../../model/event.dart';
 import '../../providers/app_language_provider.dart';
 
 class HomeTab extends StatefulWidget {
@@ -17,7 +19,6 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
-
   @override
   Widget build(BuildContext context) {
     var eventListProvider = Provider.of<EventListProvider>(context);
@@ -155,11 +156,16 @@ class _HomeTabState extends State<HomeTab> {
               padding: EdgeInsets.symmetric(horizontal: width * .04),
               child: eventListProvider.filterList.isEmpty
                   ? Center(
-                      child: Text("No Events yet"),
-                    )
+                      child: Lottie.asset(
+                      "assets/lotties/nodata.json",
+                      //     width: width * .3,
+                      // height: height * .05
+                    ))
                   : ListView.builder(
                       itemBuilder: (context, index) {
                         return EventItemWidget(
+                          onIconPressed: () => onIconPressed(
+                              eventListProvider.filterList[index]),
                           event: eventListProvider.filterList[index],
                         );
                       },
@@ -170,5 +176,10 @@ class _HomeTabState extends State<HomeTab> {
         ],
       ),
     );
+  }
+
+  onIconPressed(Event event) {
+    event.isFavorite = !event.isFavorite;
+    setState(() {});
   }
 }
